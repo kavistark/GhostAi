@@ -7,8 +7,8 @@ echo    Clearance: DEFCON 3
 echo ========================================================================
 echo.
 echo [1/2] Opening Tactical HUD in default browser...
-start http://127.0.0.1:8080
+start http://127.0.0.1:8000
 echo.
 echo [2/2] Initializing GHOST Django ASGI Server and WebSocket Gateway...
-python manage.py runserver 127.0.0.1:8080
+python manage.py runserver 127.0.0.1:8000
 pause

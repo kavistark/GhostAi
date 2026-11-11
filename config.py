@@ -30,7 +30,7 @@ class GhostSettings(BaseSettings):
 
     # Network & Gateway Server
     host: str = Field(default="127.0.0.1", alias="HOST")
-    port: int = Field(default=8080, alias="PORT")
+    port: int = Field(default=8000, alias="PORT")
     gateway_secret: str = Field(default="ghost_alpha_clearance", alias="GHOST_GATEWAY_SECRET")
 
     # Paths & Storage
