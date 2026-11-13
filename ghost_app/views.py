@@ -80,7 +80,10 @@ def get_telemetry(request):
 @require_POST
 async def execute_command(request):
     """POST /api/command"""
-    body = json.loads(request.body)
+    try:
+        body = json.loads(request.body) if request.body else {}
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return JsonResponse({"detail": "Invalid JSON body"}, status=400)
     command = body.get("command", "")
     operator_token = body.get("operator_token", None)
     result = await orchestrator.process_command(command, operator_token)
@@ -107,7 +110,10 @@ def get_mission_detail(request, mission_id: str):
 @require_POST
 def authorize_level3(request):
     """POST /api/missions/authorize"""
-    body = json.loads(request.body)
+    try:
+        body = json.loads(request.body) if request.body else {}
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return JsonResponse({"detail": "Invalid JSON body"}, status=400)
     token = body.get("token", "")
     if permission_engine.authorize_challenge(token):
         return JsonResponse({"success": True, "message": f"Authorization token {token} accepted."})
@@ -118,7 +124,10 @@ def authorize_level3(request):
 @require_POST
 def register_mobile(request):
     """POST /api/mobile/register"""
-    body = json.loads(request.body)
+    try:
+        body = json.loads(request.body) if request.body else {}
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return JsonResponse({"detail": "Invalid JSON body"}, status=400)
     result = android_gateway.register_device(
         body.get("device_id", ""),
         body.get("name", ""),
@@ -132,7 +141,10 @@ def register_mobile(request):
 @require_POST
 async def receive_notification(request):
     """POST /api/mobile/notification"""
-    body = json.loads(request.body)
+    try:
+        body = json.loads(request.body) if request.body else {}
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return JsonResponse({"detail": "Invalid JSON body"}, status=400)
     result = await android_gateway.ingest_notification(
         body.get("device_id", ""),
         body.get("app_name", ""),
@@ -157,7 +169,10 @@ async def text_to_speech_endpoint(request):
     Generate speech audio from text and return as streamable MP3.
     The UI plays this automatically whenever GHOST responds — background voice for the Operator.
     """
-    body = json.loads(request.body)
+    try:
+        body = json.loads(request.body) if request.body else {}
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return JsonResponse({"detail": "Invalid JSON body"}, status=400)
     text = body.get("text", "").strip()
     if not text:
         return JsonResponse({"detail": "No text provided."}, status=400)

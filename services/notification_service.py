@@ -20,7 +20,7 @@ class NotificationService:
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
-                "SELECT app_name, title, content, priority, timestamp FROM notifications ORDER BY timestamp DESC LIMIT ?",
+                "SELECT app_name, title, content, priority, received_at FROM notifications ORDER BY received_at DESC LIMIT ?",
                 (limit,)
             )
             rows = cursor.fetchall()

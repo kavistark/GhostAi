@@ -1,14 +1,20 @@
-import sys
+"""
+PythonAnywhere WSGI Configuration for GHOST (Django Framework)
+Path on PythonAnywhere: /var/www/ghostassist_pythonanywhere_com_wsgi.py
+Project directory: /home/GhostAssist/GhostAi
+"""
+
 import os
+import sys
 
-# Project root directory
-project_home = '/home/GhostAssist/Ghost_Assist_AI'
-if project_home not in sys.path:
-    sys.path.insert(0, project_home)
+# 1. Add project root to sys.path
+path = '/home/GhostAssist/GhostAi'
+if path not in sys.path:
+    sys.path.insert(0, path)
 
-# WSGI bridge for FastAPI
-from a2wsgi import ASGIMiddleware
-from main import app as asgi_app
+# 2. Set Django settings module
+os.environ['DJANGO_SETTINGS_MODULE'] = 'ghost_project.settings'
 
-application = ASGIMiddleware(asgi_app)
-
+# 3. Load standard Django WSGI application
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
